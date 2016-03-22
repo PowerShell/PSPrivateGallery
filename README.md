@@ -8,7 +8,7 @@
 ### Steps
 - Clone this project locally
 - Deploy Gallery DSC Resources ``$env:PSModulePath`` - Copy ``~\Modules`` folder contents to ``$env:ProgramFiles\WindowsPowerShell\Modules``
-- Generate Credential files for ``GalleryAdmin`` and ``GalleryUser`` - ``~\Configuration\GalleryAdminCredFile.clixml``, ``~\Configuration\GalleryUserCredFile.clixml``
+- Generate Credential files - ``~\Configuration\GalleryAdminCredFile.clixml``, ``~\Configuration\GalleryUserCredFile.clixml``
 - Update Configuration Data for your needs - ``~\Configuration\PSPrivateGalleryEnvironment.psd1``, ``~\Configuration\PSPrivateGalleryPublishEnvironment.psd1``
 - Deploy the Gallery ``~\Configuration\PSPrivateGallery.ps1``
-- Populate the local private instance of the Gallery with specified PowerShell modules ``~\Configuration\PSPrivateGalleryPublish.ps1``
+- Populate the local instance of the Gallery with specified PowerShell modules ``~\Configuration\PSPrivateGalleryPublish.ps1``
