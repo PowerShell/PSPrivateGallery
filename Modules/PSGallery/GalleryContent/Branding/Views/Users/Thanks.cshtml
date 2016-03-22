@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Thanks";
+}
+
+<h1 class="page-heading">
+    Thank you for registering, @CurrentUser.Username!
+</h1>
+
+<h2>Now that you have an account for this gallery you might like to...</h2>
+
+<ul>
+    <li>
+        <p>
+            <a href="@Url.Action("Account", "Users")">View your profile</a> to get your API key.
+        </p>
+    </li>
+    <li>
+        <p>
+            <a href="@Url.UploadPackage()">Upload a package</a>.
+        </p>
+    </li>
+</ul>

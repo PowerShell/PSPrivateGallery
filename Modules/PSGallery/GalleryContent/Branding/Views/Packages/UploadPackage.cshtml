@@ -1,0 +1,19 @@
+﻿@model SubmitPackageRequest
+@{
+    ViewBag.Title = "Upload";
+    ViewBag.Tab = "Upload";
+}
+
+<h1 class="page-heading">Uploading a package</h1>
+
+
+<legend> <p class="legend-upload">You can upload any PowerShell module using Publish-Module command like following </p>
+<div class="nuget-badge"> <p> <code> PS&gt; Publish-Module -Name &lt;moduleName&gt; -NuGetApiKey &lt;apiKey&gt; </code></p></div> </legend>
+<p class="legend-upload">
+</p>
+<p class="legend-upload">
+    <a href="@Url.Action("Account", "Users")">View your profile</a> to get your API key.
+</p>
+<p class="message">Your package file will be uploaded and hosted on the @(Config.Current.Brand) server (@(Config.Current.SiteRoot)).</p>
+
+

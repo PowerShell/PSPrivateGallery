@@ -1,0 +1,355 @@
+﻿@model AccountViewModel
+
+@helper AccordianBar(
+    string groupName,
+    string title,
+    string subtitle = null,
+    bool enabled = true,
+    string formModelStatePrefix = null,
+    Func<AccordianHelper, HelperResult> actions = null,
+    Func<AccordianHelper, HelperResult> content = null
+)
+{
+    Func<AccordianHelper, HelperResult> titleTemplate = null;
+    if (!String.IsNullOrEmpty(title))
+    {
+        titleTemplate = new Func<AccordianHelper, HelperResult>(@<text>@title</text>);
+    }
+
+    Func<AccordianHelper, HelperResult> subtitleTemplate = null;
+    if (!String.IsNullOrEmpty(subtitle))
+    {
+        subtitleTemplate = new Func<AccordianHelper, HelperResult>(@<text>@subtitle</text>);
+    }
+
+    @AccordianBar(groupName,
+        titleTemplate,
+        subtitleTemplate,
+        enabled,
+        formModelStatePrefix,
+        actions,
+        content)
+}
+
+@helper AccordianBar(
+    string groupName,
+    Func<AccordianHelper, HelperResult> title,
+    Func<AccordianHelper, HelperResult> subtitle = null,
+    bool enabled = true,
+    string formModelStatePrefix = null,
+    Func<AccordianHelper, HelperResult> actions = null,
+    Func<AccordianHelper, HelperResult> content = null
+)
+{
+    @* Calculate Accordian Index *@
+    string dataKey = "___AccordianCounter_" + groupName;
+    int lastId = (int)(HttpContext.Current.Items[dataKey] ?? 0);
+    int id = lastId + 1;
+    HttpContext.Current.Items[dataKey] = id;
+    string name = groupName + "-" + id.ToString();
+
+    var hlp = new AccordianHelper(name, formModelStatePrefix, this);
+    <li id="@hlp.ItemId" class="accordian-item @(enabled ? "accordian-item-enabled" : "accordian-item-disabled")">
+        @if (actions != null)
+        {
+            <div class="accordian-item-actions">
+                @actions(hlp)
+            </div>
+        }
+        <span class="accordian-item-title">
+            @title(hlp)
+        </span>
+        @if (subtitle != null)
+        {
+            <span class="accordian-item-subtitle">
+                @subtitle(hlp)
+            </span>
+        }
+        @if (content != null)
+        {
+            <div id="@hlp.ContentDropDownId" class="accordian-item-content @hlp.ContentHiddenClass">
+                @content(hlp)
+            </div>
+        }
+    </li>
+}
+
+@{
+    ViewBag.Title = "Edit Profile";
+    var credGroups = Model.Credentials.GroupBy(c => c.Kind).ToDictionary(g => g.Key, g => g.ToList());
+
+    CredentialViewModel apiKey = null;
+    if (credGroups.ContainsKey(CredentialKind.Token))
+    {
+        apiKey = credGroups[CredentialKind.Token].Single();
+    }
+
+    var hasPassword = credGroups.ContainsKey(CredentialKind.Password);
+
+    var loginCredentials = hasPassword ? 1 : 0;
+    if (credGroups.ContainsKey(CredentialKind.External))
+    {
+        loginCredentials += credGroups[CredentialKind.External].Count;
+    }
+
+    var subscriptionAction = MVC.Users.ChangeEmailSubscription(!CurrentUser.EmailAllowed);
+    var currentEmailAddress = CurrentUser.UnconfirmedEmailAddress ?? CurrentUser.EmailAddress;
+}
+
+<h1 class="page-heading">My account</h1>
+
+@if (!String.IsNullOrEmpty(CurrentUser.UnconfirmedEmailAddress) && !String.IsNullOrEmpty(CurrentUser.EmailAddress))
+{
+    <p class="message">
+        You recently registered a new email address: <strong>@CurrentUser.UnconfirmedEmailAddress</strong><br />
+
+        @if (!String.IsNullOrEmpty(CurrentUser.EmailAddress))
+        {
+            <text>We will continue sending notification emails to your old verified email address (@CurrentUser.EmailAddress)
+            until you <a href="@Url.ConfirmationRequired()">verify your new email address.</a></text>
+        }
+        else
+        {
+            <text>We will only send you notification emails after you
+                <a href="@Url.ConfirmationRequired()">verify your email address.</a><br />
+            </text>
+        }
+    </p>
+}
+
+@if (!CurrentUser.Confirmed)
+{
+    <p class="message">
+        Uploading packages or contacting package owners will require that you <a href="@Url.ConfirmationRequired()">confirm your account</a>. Why not get that out of the way now?
+    </p>
+}
+
+<section>
+    <ul class="actionlist">
+        <li class="actionlist-item">
+            <a class="actionlist-item-link" href="@Url.UploadPackage()">
+                <div class="actionlist-item-header">
+                    <i class="icon-cloud-upload actionlist-item-header-icon"></i>
+                    <span class="actionlist-item-header-text">Upload a Package</span>
+                </div>
+                <p class="actionlist-item-content">
+                    Upload and publish your package for other users to download and enjoy.
+                    You can upload multiple revisions of the same package, as long as the version
+                    is different.
+                </p>
+            </a>
+        </li>
+
+        <li class="actionlist-item">
+            <a class="actionlist-item-link" href="@Url.Action(MVC.Users.Packages())">
+                <div class="actionlist-item-header">
+                    <i class="icon-gears actionlist-item-header-icon"></i>
+                    <span class="actionlist-item-header-text">Manage my Packages</span>
+                </div>
+                <p class="actionlist-item-content">
+                    Edit package details or Remove packages that you have previously uploaded.
+                </p>
+            </a>
+        </li>
+    </ul>
+</section>
+
+<ul id="account-accordian" class="accordian">
+    @**************************
+        Email Notifications
+    **************************@
+    @AccordianBar(
+        groupName: "editprofile",
+        title: (CurrentUser.EmailAllowed ? "Subscribed to Email Notifications" : "Not subscribed to Email Notifications"),
+        enabled: CurrentUser.EmailAllowed,
+        actions: @<text>
+            @item.ExpandLink("More Info", "Less Info")
+            @using (Html.BeginForm(subscriptionAction, FormMethod.Post, new { @class = "form-inline" }))
+            {
+                <fieldset class="form">
+                    <legend>Update Email Subscription</legend>
+                    @Html.AntiForgeryToken()
+                    <input type="submit" style="width: auto;"
+                           value="@(CurrentUser.EmailAllowed ? "Unsubscribe" : "Subscribe")"
+                           title="@(CurrentUser.EmailAllowed ? "Unsubscribe" : "Subscribe")" />
+                </fieldset>
+            }
+        </text>,
+        content: @<text>
+            <p>
+                You are <em>@(CurrentUser.EmailAllowed ? "" : "not")</em> subscribed to email notifications.
+                @if (!CurrentUser.EmailAllowed)
+                {
+                    @: However, we will still send important account management and security notices.
+                }
+            </p>
+            <p>
+                <strong>Important:</strong> Subscribing allows other registered users of the site to contact you
+                about packages that you own using the <em>Contact Owners</em> form, or to request that you become an owner
+                of their package. Unsubscribing means users cannot contact you for these reasons.
+            </p>
+        </text>)
+
+    @**************************
+        Curated Feeds
+    **************************@
+    @if (Model.CuratedFeeds.Any())
+    {
+        foreach (var curatedFeed in Model.CuratedFeeds)
+        {
+            @AccordianBar(
+                    groupName: "editprofile",
+                    title: "Curated Feed",
+                    subtitle: curatedFeed,
+                    actions: @<text>
+                        <a class="btn btn-inline" href="@Url.RouteUrl(RouteName.CuratedFeed, new { name = curatedFeed })">
+                            Manage
+                        </a>
+                    </text>)
+        }
+    }
+</ul>
+<h2>Credentials</h2>
+@if (hasPassword && credGroups.ContainsKey(CredentialKind.External) && credGroups[CredentialKind.External].Any())
+{
+    <p class="message">
+        Because you have a Microsoft account registered you can remove your password below and use
+        that account to sign in to NuGet.org. No more passwords to forget!
+    </p>
+}
+    
+<ul class="accordian">
+    @**************************
+            External Credentials
+        **************************@
+    @if (credGroups.ContainsKey(CredentialKind.External))
+    {
+        foreach (var cred in credGroups[CredentialKind.External])
+        {
+            @AccordianBar(
+                groupName: "editprofile",
+                title: cred.TypeCaption,
+                subtitle: cred.Identity,
+                actions: @<text>
+                    @if (loginCredentials > 1)
+                    {
+                        using (Html.BeginForm("RemoveCredential", "Users", new { credentialType = cred.Type }, FormMethod.Post, new { @class = "form-inline" }))
+                        {
+                            <fieldset class="form">
+                                <legend>Remove @cred.TypeCaption Credential</legend>
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden(cred.Type)
+                                <button class="btn btn-inline s-confirm" type="submit" data-confirm="Are you sure you want to disassociate your @cred.AuthUI.AccountNoun? This is an irreversable action!">Remove</button>
+                            </fieldset>
+                        }
+                    }
+                </text>,
+                content: @<p>
+                You can use this Microsoft account to sign in to this gallery.
+            </p>)
+        }
+    }
+
+    @**************************
+            API Key
+        **************************@
+    @AccordianBar(
+        groupName: "editprofile",
+        title: @<text>
+            API Key:
+            @if (!CurrentUser.Confirmed)
+            {
+                <text>You need to
+                    <a href="@Url.ConfirmationRequired()">confirm your account</a> before viewing your API Key</text>
+            }
+            else if (apiKey == null)
+            {
+                <text>You don't have an API key</text>
+            }
+            else
+            {
+                <span id="key">@apiKey.Value</span>
+                <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+                        width="110"
+                        height="14"
+                        class="s-reqflash"
+                        aria-hidden="true"
+                        role="presentation">
+                    <param name="movie" value="@Url.Content("~/Content/clippy.swf")">
+                    <param name="allowScriptAccess" value="always" />
+                    <param name="quality" value="high" />
+                    <param name="scale" value="noscale" />
+                    <param name="FlashVars" value="text=@apiKey.Value">
+                    <param name="bgcolor" value="#eff7fa">
+                    <embed src="@Url.Content("~/Content/clippy.swf")"
+                           width="110"
+                           height="14"
+                           aria-hidden="true"
+                           role="presentation"
+                           name="clippy"
+                           quality="high"
+                           allowscriptaccess="always"
+                           type="application/x-shockwave-flash"
+                           pluginspage="http://www.macromedia.com/go/getflashplayer"
+                           flashvars="text=@apiKey.Value"
+                           bgcolor="#eff7fa" />
+                </object>
+            }
+        </text>,
+        actions: @<text>
+        @item.ExpandLink("More Info", "Less Info")
+        @if (CurrentUser.Confirmed)
+        {
+            using (Html.BeginForm("GenerateApiKey", "Users", FormMethod.Post, new { @class = "form-inline" }))
+            {
+                <fieldset class="form">
+                    <legend>@(apiKey == null ? "Generate an API Key" : "Generate a new API Key")</legend>
+                    @Html.AntiForgeryToken()
+                    <button class="btn btn-inline" type="submit">@(apiKey == null ? "Generate" : "Reset")</button>
+                </fieldset>
+            }
+        }
+        </text>,
+        content: @<text>
+        <p>
+            Your API key provides you with a token that identifies you to the gallery.
+            Keep this a secret. You can always regenerate your key at any time (invalidating
+            previous keys) if your token is accidentally revealed. The PSGet PowerShell module
+            allows you to submit a Config package to the gallery, and you would pass your token like this:
+        </p>
+
+        <h4>Example usage:</h4>
+        <p>
+            <div id="account-apikeysample">
+                <div>
+                    Publish-Module -Name &lt;moduleName&gt; -NuGetApiKey @apiKey.Value
+                    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+                            width="110"
+                            height="14"
+                            class="s-reqflash"
+                            aria-hidden="true"
+                            role="presentation">
+                        <param name="movie" value="@Url.Content("~/Content/clippy.swf")">
+                        <param name="allowScriptAccess" value="always" />
+                        <param name="quality" value="high" />
+                        <param name="scale" value="noscale" />
+                        <param name="FlashVars" value="text=Publish-Module -Name &lt;moduleName&gt; -NuGetApiKey @apiKey.Value">
+                        <param name="bgcolor" value="#202020">
+                        <embed src="@Url.Content("~/Content/clippy.swf")"
+                                width="110"
+                                height="14"
+                                aria-hidden="true"
+                                role="presentation"
+                                name="clippy"
+                                quality="high"
+                                allowscriptaccess="always"
+                                type="application/x-shockwave-flash"
+                                pluginspage="http://www.macromedia.com/go/getflashplayer"
+                                flashvars="text=Publish-Module -Name &lt;moduleName&gt; -NuGetApiKey @apiKey.Value"
+                                bgcolor="#202020" />
+                    </object>
+                </div>
+            </div>
+        </p>
+        </text>)
+</ul>

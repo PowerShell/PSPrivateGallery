@@ -1,0 +1,74 @@
+﻿@model LogOnViewModel
+@{
+    ViewBag.Title = "Sign In";
+}
+
+<div id="logon">
+    @if (Model.External != null)
+{
+    if (!Model.External.IsPreviewCustomer)
+    {
+        <h1>
+            Please send us <a href="mailto:cgadmin@microsoft.com?Subject=Access Request" target="_top">
+                    email (cgadmin@microsoft.com)
+            </a>
+            to participate in our limited preview.
+        </h1>
+    <div>
+        You have signed in using @Model.External.AccountName &lt;@Model.Register.EmailAddress&gt; account.
+        To sign in with a different Microsoft account, sign out from <a href="https://www.live.com" target="_blank"> live.com </a>
+    </div>
+    }
+    else
+    {
+        if (!Model.External.FoundExistingUser)
+        {
+                <h1>Do we know you?</h1>
+                <p>
+                    It looks like we haven't seen
+                    @if (String.IsNullOrEmpty(Model.External.AccountName))
+                    {
+                        @: this @Model.External.ProviderAccountNoun
+                    }
+                    else
+                    {
+                        @: the @Model.External.ProviderAccountNoun '@Model.External.AccountName'
+                    }
+                    before.
+                </p>
+
+                <div id="register">
+                    <h1>I don't have a gallery account</h1>
+                    <p>
+                        Don't have an account for this gallery yet? Please fill in the information below and we'll start
+                        a new account for you.
+                    </p>
+                    @Html.Partial("_Register", Model)
+                </div>
+            }
+        }
+    }
+    else
+    {
+        if (Model.Providers.Count > 0)
+        {
+            <div id="logon-external">
+                <h1>Sign in with a Microsoft account</h1>
+                <p id="logon-external-info">
+                    Please use your Microsoft account to log in to this gallery. You do not need to sign in order to install modules. This gallery is under limited preview.
+                </p>
+                <ul id="signin-providerlist">
+                    @foreach (var provider in Model.Providers)
+                    {
+                        <li class="signin-authprovider">
+                            <a class="btn btn-big signin-external-link" href="@Url.Action("Authenticate", new { provider = provider.ProviderName, returnUrl = ViewData[Constants.ReturnUrlViewDataKey] })">
+                                <i class="@provider.UI.IconCssClass signin-authprovider-icon"></i>
+                                @provider.UI.SignInMessage
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    }
+</div>

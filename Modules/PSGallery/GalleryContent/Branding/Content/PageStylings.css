@@ -1,0 +1,222 @@
+﻿.nuget-badge code {
+    background-color: #0072C6;
+    -moz-border-radius: 0 0 0 0;
+    -webkit-border-radius: 0 0 0 0;
+    border: 0;
+    border-radius: 0 0 0 0;
+    box-shadow: 0 0 0;
+    color: #ffffff;
+    display: block;
+    font: 1em 'andale mono', 'lucida console', monospace;
+    line-height: 1.5em;
+    overflow: auto;
+    padding: 15px;
+}
+
+.nuget-badge code .h1 {
+    font-size: 2em;
+    margin-top: 0;
+    padding-top: 0;
+    font-family: 'Segoe UI'; 
+}
+
+.nuget-badge code h3 {
+    font-size: 1.3em;
+    padding: 0;
+    margin: 0;
+    font-family: 'Segoe UI'; 
+}
+
+ul li.download{
+     margin-bottom:10px;
+}
+
+.featured div {
+    float: left;
+    margin-right: 5px;
+    width: auto
+}
+
+#account-apikeysample {
+    background-color: #202020;
+    border: 2px solid #c0c0c0;
+    color: #c0c0c0;
+    display: block;
+    font: 1em 'andale mono', 'lucida console', monospace;
+    line-height: 1.5em;
+    margin: 15px 0 0;
+    overflow: auto;
+    padding: 15px;
+}
+
+.featured {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    background-color: rgb(255, 255, 255);
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.featured div h1 {
+    color: #0072C6;
+    font-family: 'Segoe UI';
+    font-size: 2em;    
+}
+
+.featured div p {
+    font-size: 1em;
+    font-family: 'Segoe UI';
+    margin: 15px 0 30px 0;
+}
+
+.featured h1 {
+    color: #0072C6;
+}
+
+.info{
+    margin: 0;
+}
+
+.info h3{
+    color: #0072C6;
+    font-family: 'Segoe UI';
+    font-size: 2em;
+    margin: 0;
+}
+
+.info p{
+    font-family: 'Segoe UI';
+    font-size: 1em;
+    margin: 15px 0 30px 0;
+}
+
+.notice h3{
+    color: #0072C6;
+    font-family: 'Segoe UI';
+    font-size: 2em;
+    margin: 15px 0 30px 0;
+}
+
+p{
+    font-family: 'Segoe UI';
+    font-size: 1em;
+    margin: 0;
+}
+
+p.legend-upload {
+    margin-bottom:10px;
+}
+
+.aggstats {
+    background: rgb(238, 238, 238);
+    display: none;
+    margin: 0 0 30px 0;
+    padding: 0 0 0 15px;
+}
+
+.aggstats .stat {
+    color: #000;
+    display: inline-block;
+    font-weight: bold;
+    margin: 0;
+    padding: 0.5em 0;
+    text-align: left;
+    width: 33%;
+    *zoom: 1;
+}
+
+.aggstats .num {
+    color:  #0072C6;
+    display: block;
+    font-family: monospace;
+    font-size: 3em;
+    line-height: 0.9em;
+    text-align: left;
+    padding: 0;
+}
+
+#pageSearchBox {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    background-color: #fff;
+    border: 0;
+    border-radius: 0;
+    height: 32px;
+    margin-top: 7px;
+    padding-left: 5px;
+    padding-right: 4px;
+    vertical-align: top;
+    width: 300px;
+}
+
+.package-page h3 {
+    font-size: 1.25em;
+    margin: 20px 0 0 0;
+}
+
+.package-page p {
+    margin-bottom: 15px;
+}
+
+.package-page-heading {
+    border-bottom:0;
+    padding-bottom:0;
+    margin: 0 0 15px 0;
+    color: #0072C6;
+}
+
+.package-page-heading h1,
+.package-page-heading h2 {
+    font-size: 2em;
+    color: #0072C6;
+}
+
+.package-page-heading h2 { 
+    font-size: 1.5em;
+}
+
+button.edit-button,
+button.undo-button {
+    color: #0072C6;
+}
+
+#form-field-reason
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#logon-external {
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+#logon-external h1{
+   font-size: 2em;
+   color: #0072C6;
+   margin: 0 0 15px 0;
+}
+
+.btn.signin-external-link {
+    padding-right: 1.5em;
+    background-color: #0072C6;
+    border: none;
+    box-shadow: none;
+    background-image: none;
+}
+
+.btn.install-wmf {
+    width: 50%;
+    margin: 0 15px 30px 0;
+    text-align: left;
+    font-size: 18px;
+    padding-right: 6px;
+    padding-left: 10px;
+}
+
+.install-wmf-arrow {
+    vertical-align: middle;
+    padding: 0 0 2px 5px;
+}

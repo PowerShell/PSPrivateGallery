@@ -1,0 +1,162 @@
+@{
+    ViewBag.Title = "GettingStarted";
+    ViewBag.Tab = "GettingStarted";
+}
+
+<h1 class="page-heading">
+    Get Started with the PowerShell Gallery
+</h1>
+
+<h3 class="gettingStarted-heading">What is the PowerShell Gallery?</h3>
+<p class="gettingStarted-message">The PowerShell Gallery is the central repository for Windows PowerShell content. In it, you can find useful Windows PowerShell modules containing Windows PowerShell commands and Desired State Configuration (DSC) resources. Some of these modules are authored by Microsoft, and others are authored by the Windows PowerShell community.</p>
+
+<h3 class="gettingStarted-heading">Requirements</h3>
+<div class="gettingStarted-message">
+    Downloading modules from the PowerShell Gallery to your system requires the PowerShellGet module. You can find the PowerShellGet module in either of the following. You do not need to sign in to download modules from the PowerShell Gallery.
+    <ul>
+        <li>The most current <a href="http://go.microsoft.com/fwlink/?LinkId=398175">Windows Management Framework 5.0 Preview</a></li>
+        <li>Windows 10 Technical Preview</li>
+    </ul>
+    PowerShellGet also requires <a href="https://oneget.org/nuget-anycpu-2.8.3.6.exe">nuget-anycpu.exe</a> to work with the PowerShell Gallery. You are prompted to install nuget-anycpu.exe automatically on the first use of PowerShellGet, if nuget-anycpu.exe is not in one of the following locations:
+    <ul>
+        <li>$env:ProgramFiles\PackageManagement\ProviderAssemblies</li>
+        <li>$env:LOCALAPPDATA\PackageManagement\ProviderAssemblies</li>
+    </ul>
+    You can run <b>Get-PackageProvider -Name NuGet -ForceBootstrap</b> to automate the download of nuget-anycpu.exe.<br /><br />
+    Note: Due to changes in packaging formats, you might need to download the latest version of PowerShellGet to install modules that have been updated recently. PowerShellGet is part of the Windows Management Framework (WMF) 5.0 Preview, which you can download <a href="http://go.microsoft.com/fwlink/?LinkId=398175">here</a>.
+</div>
+<h3 class="gettingStarted-heading">Discovering modules from the PowerShell Gallery</h3>
+<div class="gettingStarted-message">
+    You can find modules in the PowerShell Gallery by using the <b>Search</b> control on this website, or by browsing through the Modules page. You can also find modules from the PowerShell Gallery by running the Find-Module cmdlet with -Repository PSGallery.<br />
+    Filtering results from the Gallery can be done by using the following parameters of Find-Module:
+    <ul>
+        <li>Name</li>
+        <li>Tag</li>
+        <li>Includes</li>
+        <li>DscResource</li>
+        <li>Command</li>
+        <li>Filter</li>
+        <li>AllVersions</li>
+        <li>MinimumVersion</li>
+        <li>RequiredVersion</li>
+    </ul>
+    If you're only interested in discovering specific DSC resources in the Gallery, you can run the Find-DscResource cmdlet. Find-DscResource returns data on DSC resources contained in the Gallery. Because DSC resources are always delivered as part of a module, you still need to run Install-Module to install those DSC resources.  
+</div>
+<h3 class="gettingStarted-heading">Learning about modules in the PowerShell Gallery</h3>
+<div class="gettingStarted-message">
+    <p class="gettingStarted-Content">
+        Once you've identified a module you're interested in, you may want to learn more about it. You can do this by examining that module's specific page on the Gallery. On that page, you'll be able to see all of the metadata uploaded with the module. This metadata for a module is provided by the module's author, and is not verified by Microsoft. The Owner of the module is strongly tied to the Gallery account used to publish the module, and is more trustworthy than the Author field.</p>
+    <p class="gettingStarted-Content">If you discover a module that you feel is not published in good faith, click <b>Report Abuse</b> on that module's page.
+    </p>
+    If you're running Find-Module, you can view this data in the returned PSGetModuleInfo object. For example, running <b>Find-Module -Name PSReadLine -Repository PSGallery | Get-Member</b> returns data on the PSReadLine module in the Gallery.
+</div>
+<h3 class="gettingStarted-heading">Downloading modules from the PowerShell Gallery</h3>
+<div class="gettingStarted-message">
+    <p class="gettingStarted-Content">
+        We encourage the following process when downloading modules from the PowerShell Gallery:
+    </p>
+    <div class="gettingStarted-subcontent">
+        <h4 class="gettingStarted-subheading">Inspect</h4>
+        <div class="gettingStarted-message">
+            <p class="gettingStarted-Content">
+                To download a module from the Gallery for inspection, run the <b>Save-Module</b> cmdlet. This lets you save the module locally without installing it, and inspect the module contents. Remember to delete the saved module manually.
+            </p>
+            <p class="gettingStarted-Content">
+                Some of these modules are authored by Microsoft, and others are authored by the Windows PowerShell community. Microsoft recommends that you review the contents and code of modules on this gallery prior to installation.
+            </p>
+            <p class="gettingStarted-Content">
+                If you discover a module that you feel is not published in good faith, click <b>Report Abuse</b> on that module's page.
+            </p>
+        </div>
+        <h4 class="gettingStarted-subheading">Install</h4>
+        <div class="gettingStarted-message">
+            <p class="gettingStarted-Content">
+                To install a module from the Gallery for use, run the <b>Install-Module</b> cmdlet.
+            </p>
+            <p class="gettingStarted-Content">
+                Install-Module installs the module to $env:ProgramFiles\WindowsPowerShell\Modules by default. This requires an administrator account. If you add the <b>-Scope CurrentUser</b> parameter, the module is installed to $env:USERPROFILE\Documents\WindowsPowerShell\Modules .
+            </p>
+            <p class="gettingStarted-Content">
+                By default, Install-Module installs the most current version of a module. To install an older version of the module, add the <b>-RequiredVersion</b> parameter.
+            </p>
+        </div>
+        <h4 class="gettingStarted-subheading">Deploy</h4>
+        <div class="gettingStarted-message">
+            <p class="gettingStarted-Content">
+                To deploy a module from the PowerShell Gallery to Azure Automation, click <b>Deploy to Azure Automation</b> on the module details page. You will be redirected to the Azure Management Portal, where you sign in by using your Azure account credentials. Right now, you cannot deploy modules with dependencies to Azure Automation. To learn more about Azure Automation, see the <a href="http://azure.microsoft.com/en-us/services/automation/">Azure Automation website</a>.
+            </p>
+        </div>
+    </div>
+</div>
+<h3 class="gettingStarted-heading">Updating modules from the PowerShell Gallery</h3>
+<div class="gettingStarted-message">
+    To update modules installed from the PowerShell Gallery, run the Update-Module command. When run without any additional parameters, Update-Module attempts to update each module installed by running Install-Module. To selectively update modules, add the <b>-Name</b> parameter.
+</div>
+<h3 class="gettingStarted-heading">List modules that you have installed from the PowerShell Gallery</h3>
+<div class="gettingStarted-message">
+    To find out which modules you have installed from the PowerShell Gallery, run the <b>Get-InstalledModule</b> cmdlet. This command lists all of the modules you have on your system that were installed directly from the PowerShell Gallery.
+</div>
+<br />
+<h1 class="page-heading"> Frequently Asked Questions</h1>
+<h3 class="gettingStarted-heading"> What is a Windows PowerShell module?</h3>
+<div class="gettingStarted-message">
+    A Windows PowerShell module is a reusable package containing some Windows PowerShell functionality. Everything in Windows PowerShell (functions, variables, DSC resources, etc.) can be packaged in modules. Typically, modules are folders containing specific types of files stored on a specific path. There are a few different types of Windows PowerShell modules out there.
+</div>
+<h3 class="gettingStarted-heading">How can I publish to the PowerShell Gallery?</h3>
+<div class="gettingStarted-message">
+    Use your personal, work, or school account to sign in to the Gallery to publish new modules, or manage existing modules. The Gallery requires a one-time registration process when you sign in for the first time.
+    <b>You do not need to register or sign in to the Gallery to install or save modules.</b>
+</div>
+<h3 class="gettingStarted-heading">Why can't I sign in with my personal account, but I could sign in yesterday?</h3>
+<div class="gettingStarted-message">
+    Please be aware that your gallery account does not accommodate changes to your primary email alias.
+    For more information, see <a href="http://windows.microsoft.com/en-us/windows/outlook/add-alias-account">Microsoft Email Aliases</a>.
+</div>
+<h3 class="gettingStarted-heading">What kind of Windows PowerShell module is in the Gallery?</h3>
+<div class="gettingStarted-message">
+    <p class="gettingStarted-Content">Any kind of Windows PowerShell module (script modules, binary modules, or manifest modules) can be published to the gallery. To publish a module, PowerShellGet needs to know a few things about it first - the version, description, author, and how it is licensed. This information is read as part of the publishing process from the <i>module manifest</i> (.psd1) file, or from the value of the <b>Publish-Module</b> cmdlet's <b>LicenseUri</b> parameter. All modules published to the Gallery must have module manifests. Any module that includes the following information in its manifest can be published to the Gallery:</p>
+    <ul>
+        <li>Version number</li>
+        <li>Description</li>
+        <li>Author</li>
+        <li>A URI to the license terms of the module, either as part of the <b>PrivateData</b> section of the manifest, or in the <b>LicenseUri</b> parameter of the <b>Publish-Module</b> cmdlet.</li>
+    </ul>
+</div>
+<h3 class="gettingStarted-heading">How do I create a correctly-formatted module manifest?</h3>
+<div class="gettingStarted-message">
+    <p class="gettingStarted-Content">The easiest way to create a module manifest is to run the <b>New-ModuleManifest</b> cmdlet.  In Windows PowerShell 5.0, New-ModuleManifest generates a correctly-formatted module manifest with blank fields for useful metadata like <b>ProjectUri</b>, <b>LicenseUri</b>, and <b>Tags</b>.  Simply fill in the blanks, or use the generated manifest as an example of correct formatting.</p>
+</div>
+<h3 class="gettingStarted-heading">What other types of Windows PowerShell Modules exist?</h3>
+<div class="gettingStarted-message">
+    <p class="gettingStarted-Content">The term Windows PowerShell module also refers to the files that implement actual functionality. Script module files (.psm1) contain Windows PowerShell code. Binary module files (.dll) contain compiled code.</p>
+    <p class="gettingStarted-Content">Here is one way to think about it: the folder that encapsulates the module is the module folder. The module folder can contain a module manifest (.psd1) that describes the contents of the folder. The files that actually do the work are the script module files (.psm1) and the binary module files (.dll). DSC resources are located in a specific sub-folder, and are implemented as script module files or binary module files.</p>
+    All of the modules in the Gallery contain module manifests, and most of these modules contain script module files or binary module files. The term module can be confusing because of these different meanings. Unless explicitly stated otherwise, all uses of the word module on this page refer to the module folder containing these files.
+</div>
+<h3 class="gettingStarted-heading">How does PackageManagement relate to PowerShellGet? (High Level Answer)</h3>
+<div class="gettingStarted-message">
+    <p class="gettingStarted-Content">PackageManagement is a common interface for working with any package manager. Eventually, whether you're dealing with Windows PowerShell modules, MSIs, Ruby gems, NuGet packages, or Perl modules, you should be able to use PackageManagement's commands (Find-Package and Install-Package) to find and install them. PackageManagement does this by having a package provider for each package manager that plugs into PackageManagement. Providers do all of the actual work; they fetch content from repositories, and install the content locally. Often, package providers simply wrap around the existing package manager tools for a given package type.</p>
+    <p class="gettingStarted-Content">PowerShellGet is the package manager for Windows PowerShell modules. There is a PSModule package provider that exposes PowerShellGet functionality through PackageManagement. Because of this, you can either run Install-Module or Install-Package -Provider PSModule to install a module from the PowerShell Gallery.  Certain PowerShellGet functionality, including Update-Module and Publish-Module, cannot be accessed through PackageManagement commands.</p>
+    <p class="gettingStarted-Content">In summary, PowerShellGet is solely focused on having a premium package management experience for Windows PowerShell content. PackageManagement is focused on exposing all package management experiences through one general set of tools. If you find this answer unsatisfying, there is a long answer at the bottom of this document, in the <b>How does PackageManagement actually relate to PowerShellGet?</b> section.</p>
+    For more information, please visit the <a href="http://oneget.org/"> PackageManagement project page</a>.
+</div>
+<h3 class="gettingStarted-heading">How does NuGet relate to PowerShellGet?</h3>
+<div class="gettingStarted-message">
+    <p class="gettingStarted-Content">The PowerShell Gallery is a modified version of the <a href="http://www.nuget.org/">NuGet Gallery</a>.  PowerShellGet uses nuget-anycpu.exe to work with NuGet based repositories like the PowerShell Gallery.</p>
+    You can use PowerShellGet against any valid NuGet repository or file share. You simply need to add the repository by running the <b>Register-PSRepository</b> cmdlet.
+</div>
+<h3 class="gettingStarted-heading">Does that mean I can use NuGet.exe to work with the Gallery?</h3>
+<div class="gettingStarted-message">
+    Yes.
+</div>
+<h3 class="gettingStarted-heading">How does PackageManagement actually relate to PowerShellGet? (Technical Details)</h3>
+<div class="gettingStarted-message">
+    <p class ="gettingStarted-Content">Under the hood, PowerShellGet heavily leverages PackageManagement infrastructure.</p>
+    <p class="gettingStarted-Content">At the Windows PowerShell cmdlet layer, Install-Module is actually a thin wrapper around Install-Package -Provider PSModule.</p>
+
+    At the PackageManagement package provider layer, the PSModule package provider actually calls into other PackageManagement package providers. For example, when you are working with NuGet-based galleries (such as the PowerShell Gallery), the PSModule package provider uses the NuGet Package Provider to work with the repository.
+</div>
+
+<figure>
+    <img src="../Content/Images/powershellgetArchitecture.png" alt="PowerShellGet Architecture" width="800" height="400">
+    <figcaption>Figure 1: PowerShellGet Architecture</figcaption>
+</figure>
