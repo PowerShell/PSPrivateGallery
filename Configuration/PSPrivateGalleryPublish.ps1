@@ -8,7 +8,7 @@
         # Obtain credential for Gallery operations
         $GalleryAppPoolCredential = (Import-Clixml $Node.GalleryAdminCredFile)
         $GalleryUserCredential    = (Import-Clixml $Node.GalleryUserCredFile)
-
+        
         # Source Gallery where the specified modules will be present
         PackageManagementSource SourceGallery
         {
