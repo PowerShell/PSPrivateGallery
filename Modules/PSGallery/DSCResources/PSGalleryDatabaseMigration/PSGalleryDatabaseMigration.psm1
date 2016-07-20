@@ -6,15 +6,19 @@ function Get-TargetResource
 	[OutputType([System.Collections.Hashtable])]
 	param
 	(
-		[parameter(Mandatory = $true)]
+		[parameter(Mandatory = $false)]
 		[System.String]
 		$DatabaseInstanceName,
 
 		[parameter(Mandatory = $true)]
 		[System.String]
-		$DatabaseName
+		$DatabaseName,
+
+		[parameter(Mandatory = $true)]
+		[System.String]
+		$ServerName
 	)
-       @{
+	@{
 		DatabaseInstanceName = $DatabaseInstanceName
 		DatabaseName = $DatabaseName
 	}
@@ -25,7 +29,7 @@ function Set-TargetResource
 	[CmdletBinding()]
 	param
 	(
-		[parameter(Mandatory = $true)]
+		[parameter(Mandatory = $false)]
 		[System.String]
 		$DatabaseInstanceName,
 
@@ -33,12 +37,20 @@ function Set-TargetResource
 		[System.String]
 		$DatabaseName,
 
+		[parameter(Mandatory = $true)]
+		[System.String]
+		$ServerName,
+
 		[System.String]
 		$ProviderName = 'System.Data.SqlClient'
 	)
 
-    # Migrate data to db using entity framework    
-    $connectionString = "Server=(LocalDB)\$DatabaseInstanceName;Initial Catalog=$DatabaseName;Integrated Security=True"
+    # Migrate data to db using entity framework
+	if ([string]::IsNullOrEmpty($DatabaseInstanceName)) {
+		$connectionString = "Server=$ServerName;Initial Catalog=$DatabaseName;Integrated Security=True"
+	} else {
+		$connectionString = "Server=$ServerName\$DatabaseInstanceName;Initial Catalog=$DatabaseName;Integrated Security=True"
+	}
 
     Write-Verbose -Message "Creating tables etc. in database $DatabaseName ..."
     Push-Location $galleryContentBinPath
@@ -53,13 +65,17 @@ function Test-TargetResource
 	[OutputType([System.Boolean])]
 	param
 	(
-		[parameter(Mandatory = $true)]
+		[parameter(Mandatory = $false)]
 		[System.String]
 		$DatabaseInstanceName,
 
 		[parameter(Mandatory = $true)]
 		[System.String]
 		$DatabaseName,
+
+		[parameter(Mandatory = $true)]
+		[System.String]
+		$ServerName,
 
 		[System.String]
 		$ProviderName = 'System.Data.SqlClient'
@@ -69,7 +85,11 @@ function Test-TargetResource
 
     # Create sql connection object
     $connection = New-Object System.Data.SqlClient.SqlConnection
-    $connection.ConnectionString = "Server=(LocalDB)\$DatabaseInstanceName;Integrated Security=True"
+	if ([string]::IsNullOrEmpty($DatabaseInstanceName)) {
+		$connection.ConnectionString = "Server=$ServerName;Integrated Security=True"
+	} else {
+		$connection.ConnectionString = "Server=$ServerName\$DatabaseInstanceName;Integrated Security=True"
+	}
     $connection.Open()
 
     # Create sql command
