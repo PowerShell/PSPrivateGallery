@@ -50,7 +50,7 @@ Configuration PSPrivateGallery
         {
             DatabaseInstanceName = $Node.SqlInstanceName
             DatabaseName         = $Node.SqlDatabaseName
-            DatabaseName         = $Node.SqlServerName
+            ServerName         = $Node.SqlServerName
             PsDscRunAsCredential = $GalleryCredential
             DependsOn            = '[PSGalleryDataBase]GalleryDataBase'
         }
