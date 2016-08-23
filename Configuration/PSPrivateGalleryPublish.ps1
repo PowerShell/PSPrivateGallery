@@ -34,10 +34,11 @@
         # Local Gallery User
         PSGalleryUser PrivateGalleryUser
         {
-            DatabaseInstance      = $Node.SQLInstance
-            DatabaseName          = $Node.DatabaseName
-            Ensure                =  'Present'
+            DatabaseInstance      = "$($Node.SQLServerName)\$($Node.SQLInstanceName)"
+            DatabaseName          = $Node.SQLDatabaseName
+            Ensure                = 'Present'
             UserCredential        = $GalleryUserCredential
+            #AdminSQLCredential    = $GalleryAppPoolCredential
             PsDscRunAsCredential  = $GalleryAppPoolCredential
             EmailAddress          = $Node.EmailAddress
             ApiKey                = $Node.ApiKey
