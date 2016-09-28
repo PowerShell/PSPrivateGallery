@@ -8,15 +8,21 @@ function Get-TargetResource
 	(
 		[parameter(Mandatory = $true)]
 		[System.String]
+        	[ValidateNotNullOrEmpty()]
 		$DatabaseInstanceName,
 
 		[parameter(Mandatory = $true)]
 		[System.String]
-		$DatabaseName
+		$DatabaseName,
+
+       		[parameter(Mandatory = $false)]
+		[PSCredential]
+		$SQLLoginCredential
 	)
-       @{
+	@{
 		DatabaseInstanceName = $DatabaseInstanceName
 		DatabaseName = $DatabaseName
+       		SQLLoginCredential = $SQLLoginCredential
 	}
 }
 
@@ -27,18 +33,32 @@ function Set-TargetResource
 	(
 		[parameter(Mandatory = $true)]
 		[System.String]
+        	[ValidateNotNullOrEmpty()]
 		$DatabaseInstanceName,
 
 		[parameter(Mandatory = $true)]
 		[System.String]
 		$DatabaseName,
 
+		[parameter(Mandatory = $false)]
+		[PSCredential]
+		$SQLLoginCredential,
+
 		[System.String]
 		$ProviderName = 'System.Data.SqlClient'
 	)
 
-    # Migrate data to db using entity framework    
-    $connectionString = "Server=(LocalDB)\$DatabaseInstanceName;Initial Catalog=$DatabaseName;Integrated Security=True"
+    # Migrate data to db using entity framework
+	$connectionString = [String]::Empty
+	$connectionString += "Server=$DatabaseInstanceName;Initial Catalog=$DatabaseName;"
+
+	if ($null -eq $SQLLoginCredential) {
+		$connectionString += "Integrated Security=True"
+	} else {
+		$BTSR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SQLLoginCredential.Password)
+       	$pw   = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BTSR)
+		$connectionString += "Integrated Security=False;User Id=$($SQLLoginCredential.UserName);Password=$pw"
+	}
 
     Write-Verbose -Message "Creating tables etc. in database $DatabaseName ..."
     Push-Location $galleryContentBinPath
@@ -55,11 +75,16 @@ function Test-TargetResource
 	(
 		[parameter(Mandatory = $true)]
 		[System.String]
+        	[ValidateNotNullOrEmpty()]
 		$DatabaseInstanceName,
 
 		[parameter(Mandatory = $true)]
 		[System.String]
 		$DatabaseName,
+
+        	[parameter(Mandatory = $false)]
+		[PSCredential]
+		$SQLLoginCredential,
 
 		[System.String]
 		$ProviderName = 'System.Data.SqlClient'
@@ -69,7 +94,15 @@ function Test-TargetResource
 
     # Create sql connection object
     $connection = New-Object System.Data.SqlClient.SqlConnection
-    $connection.ConnectionString = "Server=(LocalDB)\$DatabaseInstanceName;Integrated Security=True"
+    $connection.ConnectionString = "Server=$DatabaseInstanceName;"
+
+    if ($null -eq $SQLLoginCredential) {
+		$connection.ConnectionString += "Integrated Security=True"
+	} else {
+		$BTSR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SQLLoginCredential.Password)
+       	$pw   = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BTSR)
+		$connection.ConnectionString += "Integrated Security=False;User Id=$($SQLLoginCredential.UserName);Password=$pw"
+	}
     $connection.Open()
 
     # Create sql command

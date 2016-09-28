@@ -202,7 +202,12 @@ class PSGalleryUser
     [DscProperty(Mandatory)]
     [ValidateNotNullOrEmpty()]
     [System.Management.Automation.CredentialAttribute()]
-    [pscredential] $UserCredential
+    [PSCredential] $UserCredential
+
+    [DscProperty()]
+    [ValidateNotNullOrEmpty()]
+    [System.Management.Automation.CredentialAttribute()]
+    [PSCredential] $AdminSQLCredential
 
     [DscProperty(Mandatory)]
     [ValidateNotNullOrEmpty()]
@@ -330,7 +335,7 @@ function Get-SourceLocationForGallery
     return $null
 }
 
-    function Get-UserDictionary
+function Get-UserDictionary
     {
         $hashName = 'SHA1'
         $hashedPassword = Get-StringHash -String $($this.UserCredential).GetNetworkCredential().Password -HashName $hashName        
@@ -400,8 +405,16 @@ function Get-SourceLocationForGallery
         try
         {
             $connection = New-Object System.Data.SqlClient.SqlConnection
-            $connection.ConnectionString = "Server=$($this.DatabaseInstance);Initial Catalog=$($this.DatabaseName);Integrated Security=True"            
+            $connection.ConnectionString = "Server=$($this.DatabaseInstance);Initial Catalog=$($this.DatabaseName);"   #TODO
+            if ($null -eq $this.AdminSQLCredential) {
+		        $connection.ConnectionString += "Integrated Security=True"
+	        } else {
+		        $BTSR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($this.AdminSQLCredential.Password)
+       	        $pw   = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BTSR)
+		        $connection.ConnectionString += "Integrated Security=False;User Id=$($this.AdminSQLCredential.UserName);Password=$pw"
+	        }          
             $connection.Open()
+
 
             # Check if the TestUser Account is created
             foreach($row in $TestData)
@@ -447,8 +460,16 @@ function Get-SourceLocationForGallery
 
             try
             {
+                Write-Verbose "Setting connection string"
                 $connection = New-Object System.Data.SqlClient.SqlConnection
-                $connection.ConnectionString = "Server=$($this.DatabaseInstance);Initial Catalog=$($this.DatabaseName);Integrated Security=True"
+                $connection.ConnectionString = "Server=$($this.DatabaseInstance);Initial Catalog=$($this.DatabaseName);"   #TODO
+                if ($null -eq $this.AdminSQLCredential) {
+		            $connection.ConnectionString += "Integrated Security=True"
+	            } else {
+		            $BTSR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($this.AdminSQLCredential.Password)
+       	            $pw   = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BTSR)
+		            $connection.ConnectionString += "Integrated Security=False;User Id=$($this.AdminSQLCredential.UserName);Password=$pw"
+	            }      
                 $connection.Open()
 
                 foreach($row in $TestData)
@@ -501,7 +522,15 @@ function Get-SourceLocationForGallery
         try
         {
             $connection = New-Object System.Data.SqlClient.SqlConnection
-            $connection.ConnectionString = "Server=$($this.DatabaseInstance);Initial Catalog=$($this.DatabaseName);Integrated Security=True"
+            Write-Verbose "Setting connection string"
+           $connection.ConnectionString = "Server=$($this.DatabaseInstance);Initial Catalog=$($this.DatabaseName);"   #TODO
+            if ($null -eq $this.AdminSQLCredential) {
+		        $connection.ConnectionString += "Integrated Security=True"
+	        } else {
+		        $BTSR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($this.AdminSQLCredential.Password)
+       	        $pw   = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BTSR)
+		        $connection.ConnectionString += "Integrated Security=False;User Id=$($this.AdminSQLCredential.UserName);Password=$pw"
+	        }      
             $connection.Open()
 
             # Check if the TestUser Account is created

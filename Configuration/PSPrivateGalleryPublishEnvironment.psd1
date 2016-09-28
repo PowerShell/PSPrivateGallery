@@ -8,8 +8,9 @@
             GalleryAdminCredFile        = 'C:\PSPrivateGallery\Configuration\GalleryAdminCredFile.clixml'
             GalleryUserCredFile         = 'C:\PSPrivateGallery\Configuration\GalleryUserCredFile.clixml'
                         
-            SQLInstance                 = '(LocalDb)\PSGallery'
-            DatabaseName                = 'PSGallery'
+            SQLServerName               = '(LocalDB)'
+            SQLInstanceName             = 'PSGallery'
+            SQLDatabaseName             = 'PSGallery'
 
             EmailAddress                = 'PSPrivateGalleryAdmin@Contoso.com'
             ApiKey                      = 'c34d0782-b5ad-4b45-9165-a168b7f0436f'

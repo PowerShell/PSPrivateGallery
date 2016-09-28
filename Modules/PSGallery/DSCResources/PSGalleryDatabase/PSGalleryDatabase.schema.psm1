@@ -19,7 +19,9 @@
 
         # Name of Sql Database       
         [ValidateNotNullOrEmpty()]
-        [String] $SqlDatabaseName = 'PSGallery'        
+        [String] $SqlDatabaseName = 'PSGallery'
+        
+        
     )
 
     Import-DscResource -ModuleName PSDesiredStateConfiguration    
