@@ -1,0 +1,14 @@
+
+[ClassVersion("1.0.0.0"),FriendlyName("PackageManagement")] 
+class MSFT_PackageManagement : OMI_BaseResource
+{
+  [Key] string Name;
+  [Write] string RequiredVersion;
+  [Write] string MinimumVersion;
+  [Write] string MaximumVersion;
+  [Write] string Source;
+  [Write,EmbeddedInstance("MSFT_Credential")] String SourceCredential;
+  [Write] String ProviderName;
+  [Write, EmbeddedInstance("MSFT_KeyValuePair")] String AdditionalParameters[];
+  [Write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] String Ensure;
+};

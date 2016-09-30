@@ -1,0 +1,17 @@
+
+[ClassVersion("1.0.0.0"),FriendlyName("NugetPackage")] 
+class MSFT_NugetPackage : OMI_BaseResource
+{
+  [Key] String Name;
+  [Required] String DestinationPath;
+  [Write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] String Ensure;
+  [Write,ValueMap{"Trusted", "Untrusted"},Values{"Trusted", "Untrusted"}] String InstallationPolicy;
+  [Write] String RequiredVersion;
+  [Write] String MaximumVersion;
+  [Write] String MinimumVersion;
+  [Write] String Source;
+  [Write,EmbeddedInstance("MSFT_Credential")] String SourceCredential;
+  [Read] string Description;
+  [Read] String InstalledVersion;
+  [Read] String SoftwareIdentity;
+};

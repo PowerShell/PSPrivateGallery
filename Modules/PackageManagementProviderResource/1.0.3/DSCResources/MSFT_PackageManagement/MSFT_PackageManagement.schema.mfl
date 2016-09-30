@@ -1,0 +1,14 @@
+#pragma namespace("\\\\.\\root\\default")
+instance of __namespace{ name="MS_409";};
+#pragma namespace("\\\\.\\root\\default\\MS_409")
+
+[AMENDMENT, LOCALE("MS_409")] 
+class MSFT_PackageManagementSource : OMI_BaseResource
+{
+  [Key,Description("The name of the package source.\n") : Amended] string Name;
+  [Description("The name of the package provider.\n") : Amended] String ProviderName;
+  [Description("The Uri location of the package source.\n") : Amended] String SourceUri;
+  [Description("Whether the package source is to be registered or unregistered.\nPresent {default}  \nAbsent   \n") : Amended] String Ensure;
+  [Description("The credential used to access repository of package source.\n") : Amended] String SourceCredential;
+  [Description("Whether the package is trusted or untrusted.\nTrusted {default}  \nUntrusted   \n") : Amended] String InstallationPolicy;
+};

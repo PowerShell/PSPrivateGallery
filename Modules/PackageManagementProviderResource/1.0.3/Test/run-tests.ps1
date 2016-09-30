@@ -1,0 +1,2 @@
+cd "$PSScriptRoot"
+invoke-pester

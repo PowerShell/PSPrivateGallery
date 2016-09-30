@@ -1,0 +1,17 @@
+
+[ClassVersion("1.0.0.0"),FriendlyName("PSModule")] 
+class MSFT_PSModule : OMI_BaseResource
+{
+  [Key] String Name;
+  [Write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] String Ensure;
+  [Write] String Repository;
+  [Write,ValueMap{"Trusted", "Untrusted"},Values{"Trusted", "Untrusted"}] String InstallationPolicy;
+  [Write] String RequiredVersion;
+  [Write] String MinimumVersion;
+  [Read] string Description;
+  [Read] String InstalledVersion;
+  [Read] String Guid;
+  [Read] String ModuleBase;
+  [Read] String ModuleType;
+  [Read] String Author;
+};

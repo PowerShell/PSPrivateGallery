@@ -1,0 +1,20 @@
+#pragma namespace("\\\\.\\root\\default")
+instance of __namespace{ name="MS_409";};
+#pragma namespace("\\\\.\\root\\default\\MS_409")
+
+[AMENDMENT, LOCALE("MS_409")] 
+class MSFT_NugetPackage : OMI_BaseResource
+{
+  [Key,Description("Name of the package.\n") : Amended] String Name;
+  [Description("The destination path of the package.\n") : Amended] String DestinationPath;
+  [Description("Whether the package to be installed or uninstalled.\nPresent {default}  \nAbsent   \n") : Amended] String Ensure;
+  [Description("Whether the package is trusted or untrusted.\nTrusted {default}  \nUntrusted   \n") : Amended] String InstallationPolicy;
+  [Description("The required version of the package.\n") : Amended] String RequiredVersion;
+  [Description("The maximum version of the package.\n") : Amended] String MaximumVersion;
+  [Description("The minimum version of the package.\n") : Amended] String MinimumVersion;
+  [Description("The Uri or name of the package source.\n") : Amended] String Source;
+  [Description("The credential used to access repository of package source.\n") : Amended] String SourceCredential;
+  [Description("The description of the package.\n") : Amended] string Description;
+  [Description("The version of the installed package.\n") : Amended] String InstalledVersion;
+  [Description("The identity of the installed package\n") : Amended] String SoftwareIdentity;
+};

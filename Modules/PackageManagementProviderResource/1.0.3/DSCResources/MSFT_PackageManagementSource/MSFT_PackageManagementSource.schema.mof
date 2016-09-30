@@ -1,0 +1,11 @@
+
+[ClassVersion("1.0.0.0"),FriendlyName("PackageManagementSource")] 
+class MSFT_PackageManagementSource : OMI_BaseResource
+{
+  [Key] string Name;
+  [Required] String ProviderName;
+  [Required] String SourceUri;
+  [Write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] String Ensure;
+  [Write,EmbeddedInstance("MSFT_Credential")] String SourceCredential;
+  [Write,ValueMap{"Trusted", "Untrusted"},Values{"Trusted", "Untrusted"}] String InstallationPolicy;
+};

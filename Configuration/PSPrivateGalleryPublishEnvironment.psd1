@@ -35,8 +35,7 @@
                                                 MinimumVersion = '1.4'
                                             }
                                             @{ 
-                                                ModuleName = 'ARTools'
-                                                RequiredVersion = '1.0'
+                                                ModuleName = 'Pester'
                                             }
                                         )
         }                               
