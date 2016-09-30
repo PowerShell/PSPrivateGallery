@@ -337,7 +337,7 @@ function Get-SourceLocationForGallery
 
 function Get-UserDictionary
     {
-        $hashName = 'SHA1'
+        $hashName = 'SHA512'
         $hashedPassword = Get-StringHash -String $($this.UserCredential).GetNetworkCredential().Password -HashName $hashName        
 
         $user = @{
@@ -660,8 +660,8 @@ function Get-UserDictionary
             [ValidateNotNullOrEmpty()]
             [string] $String,
 
-            [ValidateSet('MD5', 'SHA1')]
-            [string] $HashName = 'SHA1'
+            [ValidateSet('MD5', 'SHA1', 'SHA256', 'SHA512', 'RIPEMD160')]
+            [string] $HashName = 'SHA256'
         )
 
         $stringBuilder = New-Object System.Text.StringBuilder 
