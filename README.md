@@ -3,7 +3,7 @@
 
 
 ### Prerequisites:
-- Windows 10 / Windows OS containing WMF 5.0 RTM [https://www.microsoft.com/en-us/download/details.aspx?id=50395]
+- Windows 10 / Windows OS containing WMF 5.1 [https://msdn.microsoft.com/en-us/powershell/wmf/5.1/install-configure]
 
 
 ### Steps
