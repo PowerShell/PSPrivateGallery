@@ -26,3 +26,6 @@
     - `Find-Module –Name PSScriptAnalyzer `
     - `Install-Module –Name PSScriptAnalyzer `
     - `Get-Module –Name PSScriptAnalyzer `
+
+- Add inbound firewall rule permitting access to the gallery
+   - `New-NetFirewallRule -Name PSGallery -DisplayName "PSGallery" -Description "Allow access to the PSGallery" -Protocol TCP -RemoteAddress Any -LocalPort 8080 -Action Allow -enabled True  `
