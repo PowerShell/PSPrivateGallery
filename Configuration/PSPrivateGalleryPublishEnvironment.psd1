@@ -19,7 +19,7 @@
             PrivateGalleryLocation      = 'http://localhost:8080'
 
             SourceGalleryName          = 'PSGallery'
-            SourceGalleryLocation      = 'https://www.powershellgallery.com'
+            SourceGalleryLocation      = 'https://www.powershellgallery.com/api/v2'
             
             Modules                     = @(
                                             @{
