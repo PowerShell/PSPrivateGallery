@@ -15,7 +15,7 @@ configuration LCMConfig
 Configuration PSPrivateGallery
 {
     Import-DscResource -Module PSGallery
-    Import-DscResource -Module xWebAdministration
+    Import-DscResource -Module xWebAdministration -ModuleVersion 1.9.0.0
 
     Node $AllNodes.Where{$_.Role -eq 'WebServer'}.Nodename
     {
