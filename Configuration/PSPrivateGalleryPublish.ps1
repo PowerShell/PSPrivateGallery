@@ -1,7 +1,7 @@
 ﻿Configuration PSPrivateGalleryPublish
 {
     Import-DscResource -ModuleName PSGallery
-    Import-DscResource -ModuleName PackageManagementProviderResource
+    Import-DscResource -ModuleName PackageManagementProviderResource -ModuleVersion 1.0.3
 
     Node $AllNodes.Where{$_.Role -eq 'Gallery'}.Nodename
     {    
