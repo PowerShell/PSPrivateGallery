@@ -20,15 +20,15 @@
     - ``~\Configuration\PSPrivateGallery.ps1``
 - Populate the local instance of the Gallery with specified PowerShell modules 
     - ``~\Configuration\PSPrivateGalleryPublish.ps1``
-- Register the Private PSGallery as an internal PowerShell repository, using Register-PSRepository.
-    - `Register-PSRepository –Name PSPrivateGallery –SourceLocation “http://localhost:8080/api/v2” –InstallationPolicy Trusted –PackageManagementProvider NuGet `
     
  - Add inbound firewall rule permitting access to the gallery
    - `New-NetFirewallRule -Name PSGallery -DisplayName "PSGallery" -Description "Allow access to the PSGallery" -Protocol TCP -RemoteAddress Any -LocalPort 8080 -Action Allow -enabled True  `
-    
+
+    - Register the Private PSGallery as an internal PowerShell repository, using Register-PSRepository.
+    - `Register-PSRepository –Name PSPrivateGallery –SourceLocation “http://localhost:8080/api/v2” –InstallationPolicy Trusted –PackageManagementProvider NuGet `
+       
 - Discovery, Installation and Inventory of module using the internal/private PowerShell repository
     - `Find-Module –Name PSScriptAnalyzer `
     - `Install-Module –Name PSScriptAnalyzer `
     - `Get-Module –Name PSScriptAnalyzer `
-
 
