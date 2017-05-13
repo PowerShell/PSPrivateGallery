@@ -7,7 +7,7 @@
 
 
 ### Steps
-- Clone this project locally
+- Clone this project locally OR Use the files from [Releases](https://github.com/PowerShell/PSPrivateGallery/releases) section.
 - Deploy Gallery DSC Resources ``$env:PSModulePath``
     - Copy ``~\Modules`` folder contents to ``$env:ProgramFiles\WindowsPowerShell\Modules``
 - Generate Credential files - ``~\Configuration\GalleryAdminCredFile.clixml``, ``~\Configuration\GalleryUserCredFile.clixml``
