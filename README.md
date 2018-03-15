@@ -9,17 +9,17 @@
 ### Steps
 - Clone this project locally OR Use the files from [Releases](https://github.com/PowerShell/PSPrivateGallery/releases) section.
 - Deploy Gallery DSC Resources ``$env:PSModulePath``
-    - Copy ``~\Modules`` folder contents to ``$env:ProgramFiles\WindowsPowerShell\Modules``
-- Generate Credential files - ``~\Configuration\GalleryAdminCredFile.clixml``, ``~\Configuration\GalleryUserCredFile.clixml``
+    - Copy ``.\Modules`` folder contents to ``$env:ProgramFiles\WindowsPowerShell\Modules``
+- Generate Credential files - ``.\Configuration\GalleryAdminCredFile.clixml``, ``.\Configuration\GalleryUserCredFile.clixml`` IMPORTANT: These passwords must meet your password complexity requirements (domain and local machine)
     - `Get-Credential –Credential GalleryUser  | Export-Clixml .\GalleryUserCredFile.clixml `
     - `Get-Credential –Credential GalleryAdmin | Export-Clixml .\GalleryAdminCredFile.clixml `
-- Update Configuration Data for your needs
-    - ``~\Configuration\PSPrivateGalleryEnvironment.psd1``
-    - ``~\Configuration\PSPrivateGalleryPublishEnvironment.psd1``
+- Update Configuration Data for your needs (optional)
+    - ``.\Configuration\PSPrivateGalleryEnvironment.psd1``
+    - ``.\Configuration\PSPrivateGalleryPublishEnvironment.psd1``
 - Deploy the Gallery
-    - ``~\Configuration\PSPrivateGallery.ps1``
+    - ``cd .\Configuration; .\PSPrivateGallery.ps1``
 - Populate the local instance of the Gallery with specified PowerShell modules
-    - ``~\Configuration\PSPrivateGalleryPublish.ps1``
+    - ``.\Configuration\PSPrivateGalleryPublish.ps1``
 
  - Add inbound firewall rule permitting access to the gallery
    - `New-NetFirewallRule -Name PSGallery -DisplayName "PSGallery" -Description "Allow access to the PSGallery" -Protocol TCP -RemoteAddress Any -LocalPort 8080 -Action Allow -enabled True  `
