@@ -22,7 +22,7 @@
     - ``.\Configuration\PSPrivateGalleryPublish.ps1``
 
  - Initialize the Private PSGallery Repository
-    - `pushd "C:\PSPrivateGallery\Configuration"; .\PSPrivateGalleryPublish.ps1; popd`
+    - `pushd ".\PSPrivateGallery\Configuration"; .\PSPrivateGalleryPublish.ps1; popd`
 
  - Add inbound firewall rule permitting access to the gallery
    - `New-NetFirewallRule -Name PSGallery -DisplayName "PSGallery" -Description "Allow access to the PSGallery" -Protocol TCP -RemoteAddress Any -LocalPort 8080 -Action Allow -enabled True  `
