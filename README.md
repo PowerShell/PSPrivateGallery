@@ -9,23 +9,29 @@
 ### Steps
 - Clone this project locally OR Use the files from [Releases](https://github.com/PowerShell/PSPrivateGallery/releases) section.
 - Deploy Gallery DSC Resources ``$env:PSModulePath``
-    - Copy ``~\Modules`` folder contents to ``$env:ProgramFiles\WindowsPowerShell\Modules``
-- Generate Credential files - ``~\Configuration\GalleryAdminCredFile.clixml``, ``~\Configuration\GalleryUserCredFile.clixml``
+    - Copy ``.\Modules`` folder contents to ``$env:ProgramFiles\WindowsPowerShell\Modules``
+- Generate Credential files - ``.\Configuration\GalleryAdminCredFile.clixml``, ``.\Configuration\GalleryUserCredFile.clixml`` IMPORTANT: These passwords must meet your password complexity requirements (domain and local machine)
     - `Get-Credential –Credential GalleryUser  | Export-Clixml .\GalleryUserCredFile.clixml `
     - `Get-Credential –Credential GalleryAdmin | Export-Clixml .\GalleryAdminCredFile.clixml `
-- Update Configuration Data for your needs
-    - ``~\Configuration\PSPrivateGalleryEnvironment.psd1``
-    - ``~\Configuration\PSPrivateGalleryPublishEnvironment.psd1``
+- Update Configuration Data for your needs (optional)
+    - ``.\Configuration\PSPrivateGalleryEnvironment.psd1``
+    - ``.\Configuration\PSPrivateGalleryPublishEnvironment.psd1``
 - Deploy the Gallery
-    - ``~\Configuration\PSPrivateGallery.ps1``
+    - ``pushd .\Configuration; .\PSPrivateGallery.ps1; popd``
 - Populate the local instance of the Gallery with specified PowerShell modules
-    - ``~\Configuration\PSPrivateGalleryPublish.ps1``
+    - ``.\Configuration\PSPrivateGalleryPublish.ps1``
+
+ - Initialize the Private PSGallery Repository
+    - `pushd ".\PSPrivateGallery\Configuration"; .\PSPrivateGalleryPublish.ps1; popd`
 
  - Add inbound firewall rule permitting access to the gallery
    - `New-NetFirewallRule -Name PSGallery -DisplayName "PSGallery" -Description "Allow access to the PSGallery" -Protocol TCP -RemoteAddress Any -LocalPort 8080 -Action Allow -enabled True  `
 
  - Register the Private PSGallery as an internal PowerShell repository, using Register-PSRepository.
-    - `Register-PSRepository –Name PSPrivateGallery –SourceLocation “http://localhost:8080/api/v2” –InstallationPolicy Trusted –PackageManagementProvider NuGet `
+    - `Register-PSRepository –Name PSPrivateGallery –SourceLocation "http://localhost:8080/api/v2" –InstallationPolicy Trusted –PackageManagementProvider NuGet `
+ 
+ - Check that the Repository Status
+    - `Get-PSRepository | ft * -Autosize`
 
 - Discovery, Installation and Inventory of module using the internal/private PowerShell repository
     - `Find-Module –Name PSScriptAnalyzer `
