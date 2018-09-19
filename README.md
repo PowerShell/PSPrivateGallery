@@ -4,7 +4,7 @@ The repository remains available for reference and pull requests will be conside
 
 If you need a private repository of PowerShell modules, we recommend deploying a Nuget repository and using PowerShellGet to retrieve and publish modules and scripts to it. https://docs.microsoft.com/en-us/nuget/hosting-packages/overview contains an overview of options for hosting a Nuget repository.
 
-
+Oustanding GitHub issues have been closed to clearly indicate that they are not being worked on.
 
 # Deploy and Manage a Private PowerShell Gallery
 
