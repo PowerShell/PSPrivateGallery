@@ -1,4 +1,11 @@
-# [Project is in Preview mode]
+# The PSPrivateGallery project is not under active development
+
+The repository remains available for reference and pull requests will be considered, but no active work is being done on this project.  
+
+If you need a private repository of PowerShell modules, we recommend deploying a Nuget repository and using PowerShellGet to retrieve and publish modules and scripts to it. https://docs.microsoft.com/en-us/nuget/hosting-packages/overview contains an overview of options for hosting a Nuget repository.
+
+
+
 # Deploy and Manage a Private PowerShell Gallery
 
 
